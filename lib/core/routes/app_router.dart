@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../features/movies/presentation/screens/movies_screen.dart';
 import 'routes.dart';
 
 /// App router configuration using GoRouter
@@ -11,19 +12,18 @@ class AppRouter {
     initialLocation: Routes.initial,
     debugLogDiagnostics: true,
     routes: [
-      // Initial/Splash route
+      // Initial route
       GoRoute(
         path: Routes.initial,
         name: Routes.initial,
-        builder: (context, state) => const _PlaceholderScreen(title: 'Home'),
+        builder: (context, state) => const MoviesScreen(),
       ),
 
       // Movies list route
       GoRoute(
         path: Routes.movies,
         name: Routes.movies,
-        builder: (context, state) =>
-            const _PlaceholderScreen(title: 'Movies List'),
+        builder: (context, state) => const MoviesScreen(),
       ),
 
       // Movie detail route
