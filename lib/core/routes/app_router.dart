@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/movies/presentation/screens/movies_screen.dart';
+import '../../features/movie_details/presentation/screens/movie_details_screen.dart';
 import 'routes.dart';
 
 /// App router configuration using GoRouter
@@ -31,8 +32,9 @@ class AppRouter {
         path: '${Routes.movieDetail}/:${Routes.movieIdParam}',
         name: Routes.movieDetail,
         builder: (context, state) {
-          final movieId = state.pathParameters[Routes.movieIdParam];
-          return _PlaceholderScreen(title: 'Movie Detail: $movieId');
+          final movieIdStr = state.pathParameters[Routes.movieIdParam];
+          final movieId = int.tryParse(movieIdStr ?? '') ?? 0;
+          return MovieDetailsScreen(movieId: movieId);
         },
       ),
     ],

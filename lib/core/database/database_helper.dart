@@ -21,7 +21,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 2, // Increment version for schema change
+      version: 3, // Increment version for movie_details table
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -57,6 +57,15 @@ class DatabaseHelper {
       )
     ''');
 
+    // Create movie_details table for detailed movie info
+    await db.execute('''
+      CREATE TABLE movie_details (
+        id INTEGER PRIMARY KEY,
+        data TEXT NOT NULL,
+        cached_at INTEGER NOT NULL
+      )
+    ''');
+
     // Create index for faster queries
     await db
         .execute('CREATE INDEX idx_category_page ON movies(category, page)');
@@ -73,6 +82,16 @@ class DatabaseHelper {
           total_results INTEGER NOT NULL,
           cached_at INTEGER NOT NULL,
           PRIMARY KEY (category, page)
+        )
+      ''');
+    }
+    if (oldVersion < 3) {
+      // Add movie_details table in version 3
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS movie_details (
+          id INTEGER PRIMARY KEY,
+          data TEXT NOT NULL,
+          cached_at INTEGER NOT NULL
         )
       ''');
     }
