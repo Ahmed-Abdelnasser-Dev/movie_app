@@ -47,8 +47,6 @@ Technologies:
 
 ## 📸 Screenshots
 
-Place PNG/JPG files under `screenshots/` in the repo root. The examples below will render automatically once files with these names exist (rename as you prefer):
-
 | Home (Light)                              | Home (Dark)                             | Details                             |
 | ----------------------------------------- | --------------------------------------- | ----------------------------------- |
 | ![Home Light](screenshots/home_light.png) | ![Home Dark](screenshots/home_dark.png) | ![Details](screenshots/details.png) |
