@@ -13,6 +13,7 @@ class MoviesList extends StatelessWidget {
   final VoidCallback? onLoadMore;
   final bool isLoadingMore;
   final bool isOffline;
+  final Future<void> Function()? onRefresh;
 
   const MoviesList({
     super.key,
@@ -20,6 +21,7 @@ class MoviesList extends StatelessWidget {
     required this.onLoadMore,
     required this.isLoadingMore,
     this.isOffline = false,
+    this.onRefresh,
   });
 
   @override
@@ -68,26 +70,33 @@ class MoviesList extends StatelessWidget {
             ),
           ),
         Expanded(
-          child: ListView.separated(
-            padding: EdgeInsets.all(AppSpacing.md),
-            itemCount: movies.length + 1,
-            separatorBuilder: (_, __) => SizedBox(height: AppSpacing.md),
-            itemBuilder: (context, index) {
-              if (index == movies.length) {
-                if (onLoadMore == null) return const SizedBox.shrink();
-                return Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: AppSpacing.md),
-                    child: LoadMoreButton(
-                      onPressed: onLoadMore,
-                      isLoading: isLoadingMore,
+          child: RefreshIndicator(
+            onRefresh: onRefresh ?? () async {},
+            color: theme.colorScheme.primary,
+            backgroundColor: theme.colorScheme.surface,
+            displacement: 32,
+            child: ListView.separated(
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: EdgeInsets.all(AppSpacing.md),
+              itemCount: movies.length + 1,
+              separatorBuilder: (_, __) => SizedBox(height: AppSpacing.md),
+              itemBuilder: (context, index) {
+                if (index == movies.length) {
+                  if (onLoadMore == null) return const SizedBox.shrink();
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: AppSpacing.md),
+                      child: LoadMoreButton(
+                        onPressed: onLoadMore,
+                        isLoading: isLoadingMore,
+                      ),
                     ),
-                  ),
-                );
-              }
-              final movie = movies[index];
-              return MovieCard(movie: movie);
-            },
+                  );
+                }
+                final movie = movies[index];
+                return MovieCard(movie: movie);
+              },
+            ),
           ),
         ),
       ],

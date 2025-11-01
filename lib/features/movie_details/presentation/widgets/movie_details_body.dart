@@ -6,6 +6,7 @@ import '../../../../core/styles/app_text_styles.dart';
 import '../../domain/entities/movie_details.dart';
 import 'movie_backdrop.dart';
 import 'movie_info_section.dart';
+import '../../../movies/presentation/widgets/movie_poster.dart';
 import 'cast_section.dart';
 
 class MovieDetailsBody extends StatelessWidget {
@@ -84,11 +85,28 @@ class MovieDetailsBody extends StatelessWidget {
           backdropPath: movieDetails!.backdropPath,
           posterPath: movieDetails!.posterPath,
           title: movieDetails!.title,
+          showBackdrop: false, // keep only the poster Hero below
         ),
         SliverToBoxAdapter(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Poster with Hero animation
+              if (movieDetails!.posterPath != null)
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppSpacing.md,
+                    vertical: AppSpacing.md,
+                  ),
+                  child: Center(
+                    child: MoviePoster(
+                      posterPath: movieDetails!.posterPath,
+                      width: 240.w,
+                      height: 320.h,
+                      heroTag: 'poster_${movieDetails!.id}',
+                    ),
+                  ),
+                ),
               if (isOffline)
                 Container(
                   width: double.infinity,

@@ -46,6 +46,7 @@ class MoviesBody extends StatelessWidget {
                 hasMore ? () => context.read<MoviesCubit>().loadMore() : null,
             isLoadingMore: isLoadingMore,
             isOffline: isOffline,
+            onRefresh: () => context.read<MoviesCubit>().fetchInitial(),
           ),
         );
       },

@@ -44,6 +44,7 @@ class MovieCard extends StatelessWidget {
                 posterPath: movie.posterPath,
                 width: 100.w,
                 height: 140.h,
+                heroTag: 'poster_${movie.id}',
               ),
               SizedBox(width: AppSpacing.md),
               Expanded(

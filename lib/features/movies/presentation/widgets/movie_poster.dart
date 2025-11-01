@@ -9,12 +9,14 @@ class MoviePoster extends StatelessWidget {
   final String? posterPath;
   final double width;
   final double height;
+  final String? heroTag;
 
   const MoviePoster({
     super.key,
     required this.posterPath,
     required this.width,
     required this.height,
+    this.heroTag,
   });
 
   @override
@@ -24,7 +26,7 @@ class MoviePoster extends StatelessWidget {
         ? '${ApiConstants.imageBaseUrl}w500$posterPath'
         : null;
 
-    return ClipRRect(
+    final poster = ClipRRect(
       borderRadius: BorderRadius.circular(AppSpacing.borderRadius),
       child: SizedBox(
         width: width,
@@ -50,6 +52,10 @@ class MoviePoster extends StatelessWidget {
               ),
       ),
     );
+    if (heroTag != null) {
+      return Hero(tag: heroTag!, child: poster);
+    }
+    return poster;
   }
 
   Widget _buildShimmerPlaceholder(ThemeData theme) {

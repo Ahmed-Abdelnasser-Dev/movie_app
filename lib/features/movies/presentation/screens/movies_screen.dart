@@ -7,6 +7,7 @@ import '../../../../core/di/service_locator.dart';
 import '../../../../core/network/connectivity_service.dart';
 import '../../../../core/styles/app_text_styles.dart';
 import '../../../../core/widgets/app_toast.dart';
+import '../../../../core/theme/theme_cubit.dart';
 import '../bloc/movies_cubit.dart';
 import '../widgets/movies_body.dart';
 
@@ -102,6 +103,20 @@ class _MoviesScreenState extends State<MoviesScreen> {
             ),
             elevation: 2,
             centerTitle: false,
+            actions: [
+              Builder(
+                builder: (context) {
+                  final theme = Theme.of(context);
+                  final isDark = theme.brightness == Brightness.dark;
+                  return IconButton(
+                    tooltip:
+                        isDark ? 'Switch to light mode' : 'Switch to dark mode',
+                    onPressed: () => context.read<ThemeCubit>().toggle(),
+                    icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
+                  );
+                },
+              ),
+            ],
           ),
           body: const MoviesBody(),
         ),

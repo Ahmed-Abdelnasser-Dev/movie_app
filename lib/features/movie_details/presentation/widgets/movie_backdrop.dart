@@ -9,16 +9,28 @@ class MovieBackdrop extends StatelessWidget {
   final String? posterPath;
   final String title;
 
+  /// When false, renders a regular pinned AppBar without a large backdrop.
+  final bool showBackdrop;
+
   const MovieBackdrop({
     super.key,
     this.backdropPath,
     this.posterPath,
     required this.title,
+    this.showBackdrop = true,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    if (!showBackdrop) {
+      // Minimal pinned app bar with title only
+      return SliverAppBar(
+        pinned: true,
+        title: Text(title, style: AppTextStyles.h3),
+      );
+    }
 
     return SliverAppBar(
       expandedHeight: 300.h,
