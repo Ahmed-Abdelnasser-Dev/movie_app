@@ -17,7 +17,14 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+      ),
+      clipBehavior: Clip.antiAlias,
       child: Padding(
         padding: EdgeInsets.all(AppSpacing.md),
         child: Row(
@@ -25,23 +32,32 @@ class MovieCard extends StatelessWidget {
           children: [
             MoviePoster(
               posterPath: movie.posterPath,
-              width: 80.w,
-              height: 110.h,
+              width: 100.w,
+              height: 140.h,
             ),
             SizedBox(width: AppSpacing.md),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(movie.title, style: AppTextStyles.title),
+                  Text(
+                    movie.title,
+                    style: AppTextStyles.title.copyWith(
+                      color: theme.textTheme.titleLarge?.color,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   SizedBox(height: AppSpacing.sm),
                   MovieRating(rating: movie.voteAverage),
                   SizedBox(height: AppSpacing.sm),
                   Text(
                     movie.overview ?? '',
-                    maxLines: 2,
+                    maxLines: 3,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.body,
+                    style: AppTextStyles.body.copyWith(
+                      color: theme.textTheme.bodyMedium?.color,
+                    ),
                   ),
                 ],
               ),

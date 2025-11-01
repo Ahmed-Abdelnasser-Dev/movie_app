@@ -156,8 +156,8 @@ extension MoviesStatePatterns on MoviesState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            List<Movie> movies, int page, bool hasMore, bool isLoadingMore)?
+    TResult Function(List<Movie> movies, int page, bool hasMore,
+            bool isLoadingMore, bool isOffline)?
         success,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -169,8 +169,8 @@ extension MoviesStatePatterns on MoviesState {
       case _Loading() when loading != null:
         return loading();
       case _Success() when success != null:
-        return success(
-            _that.movies, _that.page, _that.hasMore, _that.isLoadingMore);
+        return success(_that.movies, _that.page, _that.hasMore,
+            _that.isLoadingMore, _that.isOffline);
       case _Error() when error != null:
         return error(_that.message);
       case _:
@@ -195,8 +195,8 @@ extension MoviesStatePatterns on MoviesState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<Movie> movies, int page, bool hasMore, bool isLoadingMore)
+    required TResult Function(List<Movie> movies, int page, bool hasMore,
+            bool isLoadingMore, bool isOffline)
         success,
     required TResult Function(String message) error,
   }) {
@@ -207,8 +207,8 @@ extension MoviesStatePatterns on MoviesState {
       case _Loading():
         return loading();
       case _Success():
-        return success(
-            _that.movies, _that.page, _that.hasMore, _that.isLoadingMore);
+        return success(_that.movies, _that.page, _that.hasMore,
+            _that.isLoadingMore, _that.isOffline);
       case _Error():
         return error(_that.message);
       case _:
@@ -232,8 +232,8 @@ extension MoviesStatePatterns on MoviesState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<Movie> movies, int page, bool hasMore, bool isLoadingMore)?
+    TResult? Function(List<Movie> movies, int page, bool hasMore,
+            bool isLoadingMore, bool isOffline)?
         success,
     TResult? Function(String message)? error,
   }) {
@@ -244,8 +244,8 @@ extension MoviesStatePatterns on MoviesState {
       case _Loading() when loading != null:
         return loading();
       case _Success() when success != null:
-        return success(
-            _that.movies, _that.page, _that.hasMore, _that.isLoadingMore);
+        return success(_that.movies, _that.page, _that.hasMore,
+            _that.isLoadingMore, _that.isOffline);
       case _Error() when error != null:
         return error(_that.message);
       case _:
@@ -301,7 +301,8 @@ class _Success implements MoviesState {
       {required final List<Movie> movies,
       required this.page,
       required this.hasMore,
-      this.isLoadingMore = false})
+      this.isLoadingMore = false,
+      this.isOffline = false})
       : _movies = movies;
 
   final List<Movie> _movies;
@@ -315,6 +316,8 @@ class _Success implements MoviesState {
   final bool hasMore;
   @JsonKey()
   final bool isLoadingMore;
+  @JsonKey()
+  final bool isOffline;
 
   /// Create a copy of MoviesState
   /// with the given fields replaced by the non-null parameter values.
@@ -332,7 +335,9 @@ class _Success implements MoviesState {
             (identical(other.page, page) || other.page == page) &&
             (identical(other.hasMore, hasMore) || other.hasMore == hasMore) &&
             (identical(other.isLoadingMore, isLoadingMore) ||
-                other.isLoadingMore == isLoadingMore));
+                other.isLoadingMore == isLoadingMore) &&
+            (identical(other.isOffline, isOffline) ||
+                other.isOffline == isOffline));
   }
 
   @override
@@ -341,11 +346,12 @@ class _Success implements MoviesState {
       const DeepCollectionEquality().hash(_movies),
       page,
       hasMore,
-      isLoadingMore);
+      isLoadingMore,
+      isOffline);
 
   @override
   String toString() {
-    return 'MoviesState.success(movies: $movies, page: $page, hasMore: $hasMore, isLoadingMore: $isLoadingMore)';
+    return 'MoviesState.success(movies: $movies, page: $page, hasMore: $hasMore, isLoadingMore: $isLoadingMore, isOffline: $isOffline)';
   }
 }
 
@@ -355,7 +361,12 @@ abstract mixin class _$SuccessCopyWith<$Res>
   factory _$SuccessCopyWith(_Success value, $Res Function(_Success) _then) =
       __$SuccessCopyWithImpl;
   @useResult
-  $Res call({List<Movie> movies, int page, bool hasMore, bool isLoadingMore});
+  $Res call(
+      {List<Movie> movies,
+      int page,
+      bool hasMore,
+      bool isLoadingMore,
+      bool isOffline});
 }
 
 /// @nodoc
@@ -373,6 +384,7 @@ class __$SuccessCopyWithImpl<$Res> implements _$SuccessCopyWith<$Res> {
     Object? page = null,
     Object? hasMore = null,
     Object? isLoadingMore = null,
+    Object? isOffline = null,
   }) {
     return _then(_Success(
       movies: null == movies
@@ -390,6 +402,10 @@ class __$SuccessCopyWithImpl<$Res> implements _$SuccessCopyWith<$Res> {
       isLoadingMore: null == isLoadingMore
           ? _self.isLoadingMore
           : isLoadingMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isOffline: null == isOffline
+          ? _self.isOffline
+          : isOffline // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }

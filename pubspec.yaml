@@ -26,11 +26,17 @@ dependencies:
 
   # Storage
   shared_preferences: ^2.3.3
+  sqflite: ^2.4.1
+  path: ^1.9.0
+  cached_network_image: ^3.4.1
+
+  # Network Utils
+  connectivity_plus: ^7.0.0
 
   # UI
   flutter_screenutil: ^5.9.3
-  cached_network_image: ^3.4.1
   go_router: ^16.3.0
+  shimmer_animation: ^2.1.0+1
 
   # Env
   flutter_dotenv: ^6.0.0

@@ -9,6 +9,7 @@ class MoviesState with _$MoviesState {
     required int page,
     required bool hasMore,
     @Default(false) bool isLoadingMore,
+    @Default(false) bool isOffline,
   }) = _Success;
   const factory MoviesState.error(String message) = _Error;
 }

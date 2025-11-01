@@ -1,1 +1,17 @@
 include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/generated/**"
+
+  language:
+    strict-casts: false
+    strict-inference: false
+    strict-raw-types: false
+
+  errors:
+    # Generated files can trigger these; exclude instead of failing CI
+    unused_element: ignore
+    unused_field: ignore
